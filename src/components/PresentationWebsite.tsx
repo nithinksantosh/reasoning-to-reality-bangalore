@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap } from 'lucide-react';
+import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap, Database, Heart, TestTube, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -57,8 +56,19 @@ const PresentationWebsite = () => {
     { name: "Watch with AI", description: "Recommends Shows Based on Mood", icon: Brain },
     { name: "Data Quality Checker", description: "Rule-Based Data Validation", icon: Code },
     { name: "Compliance As a Service (CaaS)", description: "Automated Report Generator", icon: Zap },
-    { name: "Process Mining Tool", description: "Operational Insights via Process Mapping", icon: Target }
+    { name: "Process Mining Tool", description: "Operational Insights via Process Mapping", icon: Target },
+    { name: "Snowflake to Postgresql Data migration", description: "Data Migration Tool", icon: Database },
+    { name: "Nivara", description: "An emotional companion for mental wellbeing", icon: Heart },
+    { name: "NL2Test", description: "AI powered test Automation from natural Language", icon: TestTube },
+    { name: "AskAda", description: "your AI data assistant", icon: MessageSquare }
   ];
+
+  const handleFeedbackClick = () => {
+    const subject = encodeURIComponent("Feedback on Professional Services Team AI Journey");
+    const body = encodeURIComponent("Hi,\n\nI would like to share feedback on the Professional Services Team's AI transformation journey:\n\n");
+    const mailtoLink = `mailto:nithin.k@digital.ai,girish.shenoy@digital.ai?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -191,14 +201,14 @@ const PresentationWebsite = () => {
         <div className="max-w-4xl mx-auto px-8 text-center">
           <h2 className="text-4xl font-light text-gray-900 mb-6">Ready to Collaborate?</h2>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            We invite feedback, collaboration opportunities, and would love to schedule internal demos 
-            to share our learnings and innovations with the broader Digital.ai community.
+            We invite feedback, collaboration opportunities, and would love to share our learnings 
+            and innovations with the broader Digital.ai community.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-3 rounded-full">
-              Schedule Demo
-            </Button>
-            <Button variant="outline" className="border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white px-8 py-3 rounded-full">
+          <div className="flex justify-center">
+            <Button 
+              onClick={handleFeedbackClick}
+              className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-3 rounded-full"
+            >
               Share Feedback
             </Button>
           </div>
