@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap, Database, Heart, TestTube, MessageSquare } from 'lucide-react';
+import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap, Database, Heart, TestTube, MessageSquare, ExternalLink, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 const PresentationWebsite = () => {
   const [activePhase, setActivePhase] = useState<number | null>(null);
@@ -48,17 +50,19 @@ const PresentationWebsite = () => {
     }
   ];
 
+  // Projects with links first, then projects without links
   const projects = [
-    { name: "Blood Report Analysis", description: "OCR Processing Engine", icon: Brain },
-    { name: "Ayur Skin Care", description: "Personalized Product Recommendation", icon: Lightbulb },
+    { name: "Watch with AI", description: "Recommends Shows Based on Mood", icon: Brain, link: "https://watchwithai.vercel.app/" },
+    { name: "Nivara", description: "An emotional companion for mental wellbeing", icon: Heart, link: "https://emotion-wellness.vercel.app/" },
+    { name: "Data Quality Checker", description: "Rule-Based Data Validation", icon: Code, link: "https://data-quality-ai-app-h7yjaayuvvyteiytacajme.streamlit.app/" },
+    { name: "Process Mining Tool", description: "Operational Insights via Process Mapping", icon: Target, link: "https://flow-discovery-alchemy.lovable.app/" },
+    { name: "Blood Report Analysis", description: "OCR Processing Engine", icon: Brain, link: "https://blood-byte-nutrition-guide.lovable.app/" },
+    { name: "Craftsnest", description: "Personalized Gift Suggestion Engine", icon: Target, link: "https://splendorous-naiad-221a52.netlify.app" },
+    { name: "Ayur Skin Care", description: "Personalized Product Recommendation", icon: Lightbulb, link: "https://preview--ayura-glow-finder-website.lovable.app/" },
+    // Projects without links
     { name: "Nature Sip", description: "Herbal Juice Centre with Interactive Ordering", icon: Users },
-    { name: "Craftsnest", description: "Personalized Gift Suggestion Engine", icon: Target },
-    { name: "Watch with AI", description: "Recommends Shows Based on Mood", icon: Brain },
-    { name: "Data Quality Checker", description: "Rule-Based Data Validation", icon: Code },
     { name: "Compliance As a Service (CaaS)", description: "Automated Report Generator", icon: Zap },
-    { name: "Process Mining Tool", description: "Operational Insights via Process Mapping", icon: Target },
     { name: "Snowflake to Postgresql Data migration", description: "Data Migration Tool", icon: Database },
-    { name: "Nivara", description: "An emotional companion for mental wellbeing", icon: Heart },
     { name: "NL2Test", description: "AI powered test Automation from natural Language", icon: TestTube },
     { name: "AskAda", description: "your AI data assistant", icon: MessageSquare }
   ];
@@ -70,8 +74,49 @@ const PresentationWebsite = () => {
     window.location.href = mailtoLink;
   };
 
+  const handleProjectClick = (project: any) => {
+    if (project.link) {
+      window.open(project.link, '_blank');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Credit Popup */}
+      <div className="fixed top-4 right-4 z-50">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-200">
+              <Info className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64 p-3">
+            <div className="text-sm">
+              <p className="font-medium mb-2">Website Credits</p>
+              <p className="text-gray-600 mb-2">Built & maintained by</p>
+              <div className="flex flex-col space-y-1">
+                <a 
+                  href="https://nithinsantosh.in" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-brand-blue hover:underline font-medium"
+                >
+                  Nithin K Santosh
+                </a>
+                <a 
+                  href="https://github.com/nithinksantosh" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-brand-blue hover:underline text-xs"
+                >
+                  @nithinksantosh
+                </a>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
         <div className={`max-w-6xl mx-auto px-8 text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -178,12 +223,21 @@ const PresentationWebsite = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {projects.map((project, index) => (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <Card 
+                key={index} 
+                className={`group transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                  project.link ? 'cursor-pointer' : ''
+                }`}
+                onClick={() => handleProjectClick(project)}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-center mb-4">
                     <div className="p-3 bg-brand-blue/10 rounded-lg">
                       <project.icon className="h-6 w-6 text-brand-blue" />
                     </div>
+                    {project.link && (
+                      <ExternalLink className="h-4 w-4 text-gray-400 ml-auto group-hover:text-brand-blue transition-colors" />
+                    )}
                   </div>
                   <h3 className="font-medium text-gray-900 mb-2 group-hover:text-brand-blue transition-colors">
                     {project.name}
