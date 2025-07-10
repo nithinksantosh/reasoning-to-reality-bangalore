@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap, Database, Heart, TestTube, MessageSquare, ExternalLink, Info } from 'lucide-react';
+import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap, Database, Heart, TestTube, MessageSquare, ExternalLink, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -82,41 +82,6 @@ const PresentationWebsite = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Credit Popup */}
-      <div className="fixed top-4 right-4 z-50">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-200">
-              <Info className="h-4 w-4" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-64 p-3">
-            <div className="text-sm">
-              <p className="font-medium mb-2">Website Credits</p>
-              <p className="text-gray-600 mb-2">Built & maintained by</p>
-              <div className="flex flex-col space-y-1">
-                <a 
-                  href="https://nithinsantosh.in" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-brand-blue hover:underline font-medium"
-                >
-                  Nithin K Santosh
-                </a>
-                <a 
-                  href="https://github.com/nithinksantosh" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-brand-blue hover:underline text-xs"
-                >
-                  @nithinksantosh
-                </a>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
         <div className={`max-w-6xl mx-auto px-8 text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -271,10 +236,45 @@ const PresentationWebsite = () => {
 
       {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white">
-        <div className="max-w-6xl mx-auto px-8 text-center">
-          <p className="text-gray-400">
-            © 2024 Digital.ai Professional Services Team, Bangalore
-          </p>
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="flex justify-between items-center">
+            <p className="text-gray-400">
+              © 2024 Digital.ai Professional Services Team, Bangalore
+            </p>
+            
+            {/* Credit Popup */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white">
+                  <Github className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-3">
+                <div className="text-sm">
+                  <p className="font-medium mb-2">Website Credits</p>
+                  <p className="text-gray-600 mb-2">Built & maintained by</p>
+                  <div className="flex flex-col space-y-1">
+                    <a 
+                      href="https://nithinsantosh.in" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-brand-blue hover:underline font-medium"
+                    >
+                      Nithin
+                    </a>
+                    <a 
+                      href="https://github.com/nithinksantosh" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-brand-blue hover:underline text-xs"
+                    >
+                      @nithinksantosh
+                    </a>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
       </footer>
     </div>
