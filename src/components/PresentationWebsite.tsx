@@ -266,13 +266,16 @@ const PresentationWebsite = () => {
                 <p className="font-medium mb-2">Built & Maintained by</p>
                 <div className="flex flex-col space-y-1">
                   <a 
-                    href="https://nithinsantosh.in" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-brand-green hover:underline font-medium"
-                  >
-                    Nithin
-                  </a>
+  href="https://nithinsantosh.in" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  className="text-brand-green hover:underline font-medium inline-flex items-center gap-1"
+>
+  Nithin
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M12.293 2.293a1 1 0 011.414 0L18 6.586V7a1 1 0 01-1 1h-.586l-4.293-4.293a1 1 0 010-1.414zM5 4a3 3 0 00-3 3v8a3 3 0 003 3h8a3 3 0 003-3v-4a1 1 0 112 0v4a5 5 0 01-5 5H5a5 5 0 01-5-5V7a5 5 0 015-5h4a1 1 0 010 2H5z" />
+  </svg>
+</a>
                   <a 
                     href="https://github.com/nithinksantosh" 
                     target="_blank" 
