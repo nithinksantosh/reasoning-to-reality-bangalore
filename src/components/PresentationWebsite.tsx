@@ -255,8 +255,7 @@ const PresentationWebsite = () => {
               </PopoverTrigger>
               <PopoverContent className="w-64 p-3">
                 <div className="text-sm">
-                  <p className="font-medium mb-2">Website Credits</p>
-                  <p className="text-gray-600 mb-2">Built & maintained by</p>
+                  <p className="font-medium mb-2">Built & Maintained by</p>
                   <div className="flex flex-col space-y-1">
                     <a 
                       href="https://nithinsantosh.in" 
