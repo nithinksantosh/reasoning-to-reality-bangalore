@@ -236,50 +236,51 @@ const PresentationWebsite = () => {
 
       {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="flex justify-between items-center">
-            <p className="text-gray-400">
-              © {new Date().getFullYear()} Digital.ai Professional Services Team, Bangalore
-            </p>
-            
-            {/* Credit Popup */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-  variant="ghost"
-  size="default"
-  className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
->
-  👨‍💻
-</Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-64 p-3">
-                <div className="text-sm">
-                  <p className="font-medium mb-2">Built & Maintained by</p>
-                  <div className="flex flex-col space-y-1">
-                    <a 
-                      href="https://nithinsantosh.in" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-brand-blue hover:underline font-medium"
-                    >
-                      Nithin
-                    </a>
-                    <a 
-                      href="https://github.com/nithinksantosh" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-brand-blue hover:underline text-xs"
-                    >
-                      @nithinksantosh
-                    </a>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+  <div className="max-w-6xl mx-auto px-8">
+    <div className="flex flex-col items-center justify-center space-y-4">
+      
+      {/* Credit Popup */}
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="ghost"
+            size="default"
+            className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
+          >
+            👨‍💻
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-64 p-3 text-sm">
+          <p className="font-medium mb-2">Built & Maintained by</p>
+          <div className="flex flex-col space-y-1">
+            <a 
+              href="https://nithinsantosh.in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-brand-blue hover:underline font-medium"
+            >
+              Nithin
+            </a>
+            <a 
+              href="https://github.com/nithinksantosh" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-brand-blue hover:underline text-xs"
+            >
+              @nithinksantosh
+            </a>
           </div>
-        </div>
-      </footer>
+        </PopoverContent>
+      </Popover>
+
+      {/* Copyright */}
+      <p className="text-gray-400 text-center text-sm">
+        © {new Date().getFullYear()} Digital.ai Professional Services Team, Bangalore
+      </p>
+
+    </div>
+  </div>
+</footer>
     </div>
   );
 };
