@@ -239,7 +239,7 @@ const PresentationWebsite = () => {
         <div className="max-w-6xl mx-auto px-8">
           <div className="flex justify-between items-center">
             <p className="text-gray-400">
-              © 2024 Digital.ai Professional Services Team, Bangalore
+              © {new Date().getFullYear()} Digital.ai Professional Services Team, Bangalore
             </p>
             
             {/* Credit Popup */}
