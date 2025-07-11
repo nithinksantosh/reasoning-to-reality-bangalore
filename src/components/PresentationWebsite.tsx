@@ -240,7 +240,7 @@ const PresentationWebsite = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-gray-900 text-white">
+      <footer className="py-12 bg-gray-900 text-white border-t border-gray-800">
   <div className="max-w-6xl mx-auto px-8">
     <div className="flex flex-col items-center justify-center space-y-4">
       
