@@ -245,9 +245,13 @@ const PresentationWebsite = () => {
             {/* Credit Popup */}
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-20 w-20 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white text-lg">
-                  👨‍💻
-                </Button>
+                <Button
+  variant="ghost"
+  size="default"
+  className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
+>
+  👨‍💻
+</Button>
               </PopoverTrigger>
               <PopoverContent className="w-64 p-3">
                 <div className="text-sm">
