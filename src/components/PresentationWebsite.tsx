@@ -265,27 +265,13 @@ const PresentationWebsite = () => {
               <PopoverContent className="w-64 p-3 text-sm">
                 <p className="font-medium mb-2">Built & Maintained by</p>
                 <div className="flex flex-col space-y-1">
-                  <a 
-  href="https://nithinsantosh.in" 
-  target="_blank" 
+                 <a
+  href="https://nithinsantosh.in"
+  target="_blank"
   rel="noopener noreferrer"
-  className="text-brand-green hover:underline font-medium inline-flex items-center gap-1"
+  className="inline-flex items-center gap-1 text-brand-green hover:underline font-medium"
 >
-  Nithin
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-4 w-4 text-brand-green"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M13 7h4a2 2 0 012 2v8a2 2 0 01-2 2h-8a2 2 0 01-2-2v-4m10-10l-5 5m5-5h-3.5a.5.5 0 00-.5.5V7"
-    />
-  </svg>
+  Nithin <span role="img" aria-label="link">🔗</span>
 </a>
 
                   <a 
