@@ -4,6 +4,11 @@ import { ChevronDown, ArrowRight, Brain, Code, Lightbulb, Users, Target, Zap, Da
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 const PresentationWebsite = () => {
   const [activePhase, setActivePhase] = useState<number | null>(null);
@@ -241,15 +246,22 @@ const PresentationWebsite = () => {
       
       {/* Credit Popup */}
       <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant="ghost"
-            size="default"
-            className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
-          >
-            👨‍💻
-          </Button>
-        </PopoverTrigger>
+       <Tooltip>
+  <TooltipTrigger asChild>
+    <PopoverTrigger asChild>
+      <Button
+        variant="ghost"
+        size="default"
+        className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
+      >
+        👨‍💻
+      </Button>
+    </PopoverTrigger>
+  </TooltipTrigger>
+  <TooltipContent>
+    Website Credits
+  </TooltipContent>
+</Tooltip>
         <PopoverContent className="w-64 p-3 text-sm">
           <p className="font-medium mb-2">Built & Maintained by</p>
           <div className="flex flex-col space-y-1">
