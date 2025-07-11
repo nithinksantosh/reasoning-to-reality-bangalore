@@ -96,7 +96,7 @@ const PresentationWebsite = () => {
             </div>
             <h1 className="text-6xl md:text-7xl font-light tracking-tight text-gray-900 mb-6">
               From Reports to{' '}
-              <span className="text-brand-blue font-medium">Reasoning</span>
+              <span className="text-brand-green font-medium">Reasoning</span>
             </h1>
             <h2 className="text-2xl md:text-3xl font-light text-gray-600 mb-8">
               Our Journey into AI
@@ -114,7 +114,7 @@ const PresentationWebsite = () => {
 
           <Button 
             onClick={() => document.getElementById('phases')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-4 rounded-full text-lg font-medium"
+            className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-4 rounded-full text-lg font-medium"
           >
             Explore Our Journey
             <ChevronDown className="ml-2 h-5 w-5" />
@@ -135,7 +135,7 @@ const PresentationWebsite = () => {
               <div key={phase.id} className="relative">
                 <Card 
                   className={`cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                    activePhase === phase.id ? 'shadow-lg border-brand-blue' : 'hover:border-gray-300'
+                    activePhase === phase.id ? 'shadow-lg border-brand-green' : 'hover:border-gray-300'
                   }`}
                   onClick={() => setActivePhase(activePhase === phase.id ? null : phase.id)}
                 >
@@ -202,14 +202,14 @@ const PresentationWebsite = () => {
               >
                 <CardContent className="p-6">
                   <div className="flex items-center mb-4">
-                    <div className="p-3 bg-brand-blue/10 rounded-lg">
-                      <project.icon className="h-6 w-6 text-brand-blue" />
+                    <div className="p-3 bg-brand-green/10 rounded-lg">
+                      <project.icon className="h-6 w-6 text-brand-green" />
                     </div>
                     {project.link && (
-                      <ExternalLink className="h-4 w-4 text-gray-400 ml-auto group-hover:text-brand-blue transition-colors" />
+                      <ExternalLink className="h-4 w-4 text-gray-400 ml-auto group-hover:text-brand-green transition-colors" />
                     )}
                   </div>
-                  <h3 className="font-medium text-gray-900 mb-2 group-hover:text-brand-blue transition-colors">
+                  <h3 className="font-medium text-gray-900 mb-2 group-hover:text-brand-green transition-colors">
                     {project.name}
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed">{project.description}</p>
@@ -231,7 +231,7 @@ const PresentationWebsite = () => {
           <div className="flex justify-center">
             <Button 
               onClick={handleFeedbackClick}
-              className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-3 rounded-full"
+              className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-3 rounded-full"
             >
               Share Feedback
             </Button>
@@ -241,58 +241,58 @@ const PresentationWebsite = () => {
 
       {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white border-t border-gray-800">
-  <div className="max-w-6xl mx-auto px-8">
-    <div className="flex flex-col items-center justify-center space-y-4">
-      
-      {/* Credit Popup */}
-      <Popover>
-       <Tooltip>
-  <TooltipTrigger asChild>
-    <PopoverTrigger asChild>
-      <Button
-        variant="ghost"
-        size="default"
-        className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
-      >
-        👨‍💻
-      </Button>
-    </PopoverTrigger>
-  </TooltipTrigger>
-  <TooltipContent>
-    Website Credits
-  </TooltipContent>
-</Tooltip>
-        <PopoverContent className="w-64 p-3 text-sm">
-          <p className="font-medium mb-2">Built & Maintained by</p>
-          <div className="flex flex-col space-y-1">
-            <a 
-              href="https://nithinsantosh.in" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-brand-blue hover:underline font-medium"
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            
+            {/* Credit Popup */}
+            <Popover>
+             <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="default"
+              className="h-12 w-12 rounded-full bg-gray-700 hover:bg-gray-600 text-white text-2xl shadow-md transition-all duration-200"
             >
-              Nithin
-            </a>
-            <a 
-              href="https://github.com/nithinksantosh" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-brand-blue hover:underline text-xs"
-            >
-              @nithinksantosh
-            </a>
+              👨‍💻
+            </Button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          Website Credits
+        </TooltipContent>
+      </Tooltip>
+              <PopoverContent className="w-64 p-3 text-sm">
+                <p className="font-medium mb-2">Built & Maintained by</p>
+                <div className="flex flex-col space-y-1">
+                  <a 
+                    href="https://nithinsantosh.in" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-brand-green hover:underline font-medium"
+                  >
+                    Nithin
+                  </a>
+                  <a 
+                    href="https://github.com/nithinksantosh" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-brand-green hover:underline text-xs"
+                  >
+                    @nithinksantosh
+                  </a>
+                </div>
+              </PopoverContent>
+            </Popover>
+
+            {/* Copyright */}
+            <p className="text-gray-400 text-center text-sm">
+              © {new Date().getFullYear()} Digital.ai Professional Services Team, Bangalore
+            </p>
+
           </div>
-        </PopoverContent>
-      </Popover>
-
-      {/* Copyright */}
-      <p className="text-gray-400 text-center text-sm">
-        © {new Date().getFullYear()} Digital.ai Professional Services Team, Bangalore
-      </p>
-
-    </div>
-  </div>
-</footer>
+        </div>
+      </footer>
     </div>
   );
 };
