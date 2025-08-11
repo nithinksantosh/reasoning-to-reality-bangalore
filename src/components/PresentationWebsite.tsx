@@ -64,7 +64,6 @@ const PresentationWebsite = () => {
     { name: "Blood Report Analysis", description: "OCR Processing Engine", icon: Brain, link: "https://blood-byte-nutrition-guide.lovable.app/" },
     { name: "Craftsnest", description: "Personalized Gift Suggestion Engine", icon: Target, link: "https://splendorous-naiad-221a52.netlify.app" },
     { name: "Ayur Skin Care", description: "Personalized Product Recommendation", icon: Lightbulb, link: "https://preview--ayura-glow-finder-website.lovable.app/" },
-    { name: "Local, Private Coding Assistant", description: "Experimenting with CodeLlama and Phi-3", icon: Code, link: "https://nithinsantosh.hashnode.dev/experimenting-with-codellama-and-phi-3" },
     // Projects without links
     { name: "Nature Sip", description: "Herbal Juice Centre with Interactive Ordering", icon: Users },
     { name: "Compliance As a Service (CaaS)", description: "Automated Report Generator", icon: Zap },
@@ -175,6 +174,24 @@ const PresentationWebsite = () => {
                           </div>
                         ))}
                       </div>
+                      {phase.id === 2 && (
+                        <div className="mt-8">
+                          <h4 className="text-lg font-medium text-gray-900 mb-4">Learning: Model Evaluation</h4>
+                          <ul className="space-y-2">
+                            <li>
+                              <a
+                                href="/phase2/classification-metrics-1.html"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-brand-green hover:underline inline-flex items-center"
+                              >
+                                Classification metrics 1
+                                <ExternalLink className="h-4 w-4 ml-1" />
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </CardContent>
                   )}
                 </Card>
@@ -217,6 +234,36 @@ const PresentationWebsite = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Blogs */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-light text-gray-900 mb-4">Blogs</h2>
+            <p className="text-xl text-gray-600">Writings and experiments from the team</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card
+              className="group transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+              onClick={() => window.open('https://nithinsantosh.hashnode.dev/experimenting-with-codellama-and-phi-3', '_blank')}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="p-3 bg-brand-green/10 rounded-lg">
+                    <Code className="h-6 w-6 text-brand-green" />
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-gray-400 ml-auto group-hover:text-brand-green transition-colors" />
+                </div>
+                <h3 className="font-medium text-gray-900 mb-2 group-hover:text-brand-green transition-colors">
+                  Local, Private Coding Assistant
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Experimenting with CodeLlama and Phi-3</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
