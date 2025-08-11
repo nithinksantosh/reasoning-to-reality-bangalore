@@ -64,6 +64,7 @@ const PresentationWebsite = () => {
     { name: "Blood Report Analysis", description: "OCR Processing Engine", icon: Brain, link: "https://blood-byte-nutrition-guide.lovable.app/" },
     { name: "Craftsnest", description: "Personalized Gift Suggestion Engine", icon: Target, link: "https://splendorous-naiad-221a52.netlify.app" },
     { name: "Ayur Skin Care", description: "Personalized Product Recommendation", icon: Lightbulb, link: "https://preview--ayura-glow-finder-website.lovable.app/" },
+    { name: "Local, Private Coding Assistant", description: "Experimenting with CodeLlama and Phi-3", icon: Code, link: "https://nithinsantosh.hashnode.dev/experimenting-with-codellama-and-phi-3" },
     // Projects without links
     { name: "Nature Sip", description: "Herbal Juice Centre with Interactive Ordering", icon: Users },
     { name: "Compliance As a Service (CaaS)", description: "Automated Report Generator", icon: Zap },
