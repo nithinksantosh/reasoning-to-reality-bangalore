@@ -189,6 +189,17 @@ const PresentationWebsite = () => {
                                 <ExternalLink className="h-4 w-4 ml-1" />
                               </a>
                             </li>
+                            <li>
+                              <a
+                                href="/phase2/classification-metrics-advanced.html"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-brand-green hover:underline inline-flex items-center"
+                              >
+                                Classification metrics advanced
+                                <ExternalLink className="h-4 w-4 ml-1" />
+                              </a>
+                            </li>
                           </ul>
                         </div>
                       )}

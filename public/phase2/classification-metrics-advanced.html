@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classification Error Metrics 2.0 - Advanced Training</title>
+  <meta name="description" content="Advanced classification metrics: specificity, ROC/AUC, PR curves, cost-sensitive learning, and strategic trade-offs." />
+  <link rel="canonical" href="/phase2/classification-metrics-advanced.html" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height:1.6; color:#333; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height:100vh; }
+    .container { max-width:1200px; margin:0 auto; padding:20px; }
+    .header { text-align:center; background:rgba(255,255,255,0.95); padding:40px 20px; border-radius:15px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+    .header h1 { font-size:2.5em; color:#2c3e50; margin-bottom:10px; background:linear-gradient(45deg,#667eea,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .header p { font-size:1.2em; color:#7f8c8d; }
+    .section { background:rgba(255,255,255,0.95); margin-bottom:25px; padding:30px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); transition:transform .3s ease; }
+    .section:hover { transform:translateY(-5px); }
+    .section h2 { color:#2c3e50; font-size:1.8em; margin-bottom:20px; border-bottom:3px solid #667eea; padding-bottom:10px; }
+    .section h3 { color:#34495e; font-size:1.4em; margin:25px 0 15px; }
+    .formula { background:linear-gradient(135deg,#f8f9fa,#e9ecef); border-left:4px solid #667eea; padding:20px; margin:20px 0; font-family:'Courier New', monospace; font-size:1.1em; border-radius:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.1); }
+    .example-box { background:linear-gradient(135deg,#e3f2fd,#bbdefb); border-radius:10px; padding:20px; margin:20px 0; border-left:5px solid #2196f3; }
+    .warning-box { background:linear-gradient(135deg,#fff3e0,#ffe0b2); border-radius:10px; padding:20px; margin:20px 0; border-left:5px solid #ff9800; }
+    .danger-box { background:linear-gradient(135deg,#ffebee,#ffcdd2); border-radius:10px; padding:20px; margin:20px 0; border-left:5px solid #f44336; }
+    .key-points { background:linear-gradient(135deg,#e8f5e8,#c8e6c9); border-radius:10px; padding:20px; margin:20px 0; border-left:5px solid #4caf50; }
+    .error-comparison { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:25px 0; }
+    .error-card { background:linear-gradient(135deg,#f5f7fa,#c3cfe2); padding:25px; border-radius:12px; border:2px solid #e0e6ed; transition:transform .3s ease; }
+    .error-card:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.15); }
+    .error-card.type1{ border-left:5px solid #ff9800; }
+    .error-card.type2{ border-left:5px solid #f44336; }
+    .metrics-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; margin:25px 0; }
+    .metric-card{ background:linear-gradient(135deg,#f5f7fa,#c3cfe2); padding:20px; border-radius:10px; border:2px solid #e0e6ed; transition:transform .3s ease; }
+    .metric-card:hover{ transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.15); }
+    .metric-card h4{ color:#2c3e50; margin-bottom:15px; font-size:1.3em; }
+    .confusion-matrix-advanced{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:20px auto; max-width:500px; }
+    .matrix-cell{ background:#f8f9fa; border:2px solid #dee2e6; padding:15px; text-align:center; border-radius:8px; font-weight:bold; }
+    .matrix-header{ background:#667eea; color:white; }
+    .matrix-tp{ background:#d4edda; } .matrix-fp{ background:#f8d7da; } .matrix-fn{ background:#f8d7da; } .matrix-tn{ background:#d4edda; }
+    .trade-off-visual{ background:linear-gradient(135deg,#fce4ec,#f8bbd9); border-radius:10px; padding:25px; margin:20px 0; border-left:5px solid #e91e63; }
+    .roc-explanation{ background:linear-gradient(135deg,#e1f5fe,#b3e5fc); border-radius:10px; padding:20px; margin:20px 0; border-left:5px solid #03a9f4; }
+    .cost-analysis{ background:linear-gradient(135deg,#f3e5f5,#e1bee7); border-radius:10px; padding:20px; margin:20px 0; border-left:5px solid #9c27b0; }
+    .scenario-box{ background:linear-gradient(135deg,#fff8e1,#ffecb3); border-radius:10px; padding:20px; margin:15px 0; border-left:5px solid #ffc107; }
+    .comparison-table{ width:100%; border-collapse:collapse; margin:20px 0; background:white; border-radius:8px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.1); }
+    .comparison-table th{ background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:15px; text-align:left; font-weight:bold; }
+    .comparison-table td{ padding:15px; border-bottom:1px solid #eee; }
+    .comparison-table tr:hover{ background:#f8f9fa; }
+    .highlight{ background:linear-gradient(120deg,#a8edea 0%, #fed6e3 100%); padding:2px 6px; border-radius:4px; font-weight:bold; }
+    .auc-scale{ display:flex; justify-content:space-between; align-items:center; background:linear-gradient(90deg,#ff4444,#ffaa00,#44ff44); padding:10px; border-radius:10px; margin:15px 0; color:white; font-weight:bold; }
+    ul{ padding-left:25px; margin:15px 0; } li{ margin-bottom:8px; }
+    @media print { body{ background:white; } .section{ break-inside:avoid; page-break-inside:avoid; } }
+    @media (max-width:768px){ .header h1{ font-size:2em; } .section{ padding:20px; } .error-comparison{ grid-template-columns:1fr; } .metrics-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Classification Error Metrics 2.0</h1>
+      <p>Advanced Error Analysis & Performance Evaluation</p>
+    </div>
+
+    <div class="section">
+      <h2>🎯 Learning Objectives</h2>
+      <div class="key-points">
+        <p><strong>Building on Classification Metrics 1.0, you will master:</strong></p>
+        <ul>
+          <li>Type 1 and Type 2 errors and their real-world implications</li>
+          <li>Advanced metrics: Specificity, FPR, FNR, TPR, FDR</li>
+          <li>ROC curves and AUC interpretation</li>
+          <li>Precision-Recall curves for imbalanced datasets</li>
+          <li>Cost-sensitive learning and balanced accuracy</li>
+          <li>Strategic error trade-off decisions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>⚠️ Type 1 vs Type 2 Errors: The Foundation</h2>
+      <div class="error-comparison">
+        <div class="error-card type1">
+          <h3>🚨 Type 1 Error (False Positive)</h3>
+          <div class="formula">Type 1 Error = FP</div>
+          <p><strong>Definition:</strong> Model predicts positive when actual is negative</p>
+          <p><strong>Also called:</strong> False Alarm</p>
+          <p><strong>Think:</strong> "Crying wolf when there's no wolf"</p>
+        </div>
+        <div class="error-card type2">
+          <h3>💀 Type 2 Error (False Negative)</h3>
+          <div class="formula">Type 2 Error = FN</div>
+          <p><strong>Definition:</strong> Model fails to detect positive when actual is positive</p>
+          <p><strong>Also called:</strong> Miss</p>
+          <p><strong>Think:</strong> "Missing the wolf when it's actually there"</p>
+        </div>
+      </div>
+      <h3>🏥 Medical Diagnosis Example</h3>
+      <div class="scenario-box">
+        <p><strong>Disease Screening Test:</strong></p>
+        <ul>
+          <li><strong>Type 1 Error (False Positive):</strong> Test says patient has disease, but they're healthy → <em>Unnecessary anxiety, tests, treatments</em></li>
+          <li><strong>Type 2 Error (False Negative):</strong> Test says patient is healthy, but they have disease → <em>Potentially fatal if untreated</em></li>
+        </ul>
+      </div>
+      <div class="danger-box">
+        <p><strong>Critical Insight:</strong> In healthcare, Type 2 errors are usually more dangerous. Better false alarms than missed diagnoses!</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🔗 Connecting Errors to Our Confusion Matrix</h2>
+      <div class="confusion-matrix-advanced">
+        <div class="matrix-cell matrix-header"></div>
+        <div class="matrix-cell matrix-header">Predicted Positive</div>
+        <div class="matrix-cell matrix-header">Predicted Negative</div>
+        <div class="matrix-cell matrix-header">Actual Positive</div>
+        <div class="matrix-cell matrix-tp">True Positive (TP) ✅</div>
+        <div class="matrix-cell matrix-fn">False Negative (FN)<br><strong>Type 2 Error</strong> 💀</div>
+        <div class="matrix-cell matrix-header">Actual Negative</div>
+        <div class="matrix-cell matrix-fp">False Positive (FP)<br><strong>Type 1 Error</strong> 🚨</div>
+        <div class="matrix-cell matrix-tn">True Negative (TN) ✅</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>⚖️ The Precision-Recall Trade-off Revisited</h2>
+      <div class="trade-off-visual">
+        <h3>🎛️ The Threshold Dilemma</h3>
+        <p>By adjusting your model's decision threshold, you create a fundamental trade-off:</p>
+        <div class="error-comparison">
+          <div class="error-card">
+            <h4>🎯 High Precision (Low Type 1 Error)</h4>
+            <p><strong>Strategy:</strong> Be very conservative about predicting positive</p>
+            <p><strong>Result:</strong> Fewer false alarms, but might miss some real cases</p>
+            <p><strong>Good for:</strong> Spam detection, fraud alerts</p>
+          </div>
+          <div class="error-card">
+            <h4>🔍 High Recall (Low Type 2 Error)</h4>
+            <p><strong>Strategy:</strong> Be liberal about predicting positive</p>
+            <p><strong>Result:</strong> Catch most real cases, but more false alarms</p>
+            <p><strong>Good for:</strong> Disease screening, security threats</p>
+          </div>
+        </div>
+      </div>
+      <div class="example-box">
+        <h3>📧 Real-World Applications</h3>
+        <ul>
+          <li><strong>Email Spam Filter:</strong> Prioritize precision to avoid false positives</li>
+          <li><strong>Cancer Screening:</strong> Prioritize recall to avoid false negatives</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📊 Advanced Classification Metrics</h2>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h4>🎯 Specificity (True Negative Rate)</h4>
+          <div class="formula">Specificity = TN / (TN + FP)</div>
+          <p><strong>Measures:</strong> How well we identify negative cases</p>
+        </div>
+        <div class="metric-card">
+          <h4>🚨 False Positive Rate (FPR)</h4>
+          <div class="formula">FPR = FP / (FP + TN)</div>
+          <p><strong>Note:</strong> FPR = 1 - Specificity</p>
+        </div>
+        <div class="metric-card">
+          <h4>💀 False Negative Rate (FNR)</h4>
+          <div class="formula">FNR = FN / (FN + TP)</div>
+          <p><strong>Note:</strong> FNR = 1 - Recall (TPR)</p>
+        </div>
+        <div class="metric-card">
+          <h4>✅ True Positive Rate (TPR)</h4>
+          <div class="formula">TPR = TP / (TP + FN)</div>
+          <p><strong>Same as:</strong> Recall/Sensitivity</p>
+        </div>
+        <div class="metric-card">
+          <h4>🔍 False Discovery Rate (FDR)</h4>
+          <div class="formula">FDR = FP / (FP + TP)</div>
+          <p><strong>Note:</strong> FDR = 1 - Precision</p>
+        </div>
+        <div class="metric-card">
+          <h4>⚖️ Balanced Accuracy</h4>
+          <div class="formula">Balanced Accuracy = (TPR + TNR) / 2</div>
+          <p><strong>Best for:</strong> Imbalanced datasets</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📈 ROC Curve: The Ultimate Performance Visualizer</h2>
+      <div class="roc-explanation">
+        <h3>🎯 What is ROC?</h3>
+        <p><strong>ROC (Receiver Operating Characteristic)</strong> plots TPR vs FPR at different thresholds</p>
+        <ul>
+          <li><strong>X-axis:</strong> False Positive Rate (FPR)</li>
+          <li><strong>Y-axis:</strong> True Positive Rate (TPR)</li>
+          <li><strong>Perfect model:</strong> High TPR, Low FPR (top-left corner)</li>
+        </ul>
+      </div>
+      <h3>🏆 AUC (Area Under the Curve) Interpretation</h3>
+      <div class="auc-scale">
+        <span>AUC = 0.5<br>Random</span>
+        <span>AUC = 0.7<br>Good</span>
+        <span>AUC = 0.9<br>Excellent</span>
+        <span>AUC = 1.0<br>Perfect</span>
+      </div>
+      <div class="key-points">
+        <p><strong>AUC Intuition:</strong> Probability that your model ranks a random positive higher than a random negative</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📊 Precision-Recall Curve: For Imbalanced Data</h2>
+      <div class="warning-box">
+        <p><strong>When ROC isn't enough:</strong> In highly imbalanced datasets, ROC can be overly optimistic</p>
+      </div>
+      <div class="example-box">
+        <h3>🎯 Why PR Curves Matter</h3>
+        <p><strong>Scenario:</strong> Fraud detection with 99.9% legitimate transactions</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>💰 Cost-Sensitive Learning</h2>
+      <div class="cost-analysis">
+        <h3>💸 Not All Errors Cost the Same</h3>
+        <div class="formula">Total Cost = (Cost of FP × FP) + (Cost of FN × FN)</div>
+      </div>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Type 1 Error (FP) Cost</th>
+            <th>Type 2 Error (FN) Cost</th>
+            <th>Strategy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Cancer Screening</strong></td><td>Unnecessary biopsy</td><td>Missed cancer</td><td>Minimize FN</td></tr>
+          <tr><td><strong>Email Spam</strong></td><td>Important email to spam</td><td>Spam in inbox</td><td>Minimize FP</td></tr>
+          <tr><td><strong>Fraud Detection</strong></td><td>Block legitimate transaction</td><td>Allow fraudulent transaction</td><td>Balance both</td></tr>
+          <tr><td><strong>Security Screening</strong></td><td>Extra screening</td><td>Security threat</td><td>Minimize FN</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>🎯 Choosing the Right Metric for Your Problem</h2>
+      <div class="scenario-box">
+        <h3>🧭 Decision Framework</h3>
+        <ol>
+          <li><strong>Is my dataset balanced?</strong> Balanced → Accuracy/F1, Imbalanced → Balanced Accuracy/AUC-PR</li>
+          <li><strong>Which error is more costly?</strong> FP costly → Precision/Specificity, FN costly → Recall/Sensitivity</li>
+          <li><strong>Threshold flexibility?</strong> Single threshold → precision/recall, Flexible → AUC-ROC/PR</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📝 Summary & Key Takeaways</h2>
+      <div class="key-points">
+        <ul>
+          <li>Type 1 & 2 errors underpin classification decisions</li>
+          <li>Choose metrics based on context and cost</li>
+          <li>Use ROC/AUC and PR curves appropriately</li>
+          <li>Validate with domain experts; monitor in production</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>❓ Advanced Discussion Questions</h2>
+      <ul>
+        <li>How would you quantify FP vs FN costs in your domain?</li>
+        <li>When might a lower AUC model be preferred?</li>
+        <li>How does threshold selection change over time?</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>🔗 Building on Classification Metrics 1.0</h2>
+      <div class="example-box">
+        <p><strong>Toolkit Recap:</strong> Accuracy, Precision, Recall, F1-Score, Confusion Matrix, Specificity, ROC/AUC, PR Curves, Cost-Sensitivity.</p>
+        <p>Next: apply these to your project and evaluate trade-offs with stakeholders.</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
