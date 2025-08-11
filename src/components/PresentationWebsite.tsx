@@ -185,7 +185,7 @@ const PresentationWebsite = () => {
                                 rel="noopener noreferrer"
                                 className="text-brand-green hover:underline inline-flex items-center"
                               >
-                                Classification metrics 1
+                                Classification Metrics
                                 <ExternalLink className="h-4 w-4 ml-1" />
                               </a>
                             </li>
@@ -196,7 +196,18 @@ const PresentationWebsite = () => {
                                 rel="noopener noreferrer"
                                 className="text-brand-green hover:underline inline-flex items-center"
                               >
-                                Classification metrics advanced
+                                Classification Metrics (Advanced)
+                                <ExternalLink className="h-4 w-4 ml-1" />
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="/phase2/regression_metrics_training.html"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-brand-green hover:underline inline-flex items-center"
+                              >
+                                Regression Metrics
                                 <ExternalLink className="h-4 w-4 ml-1" />
                               </a>
                             </li>
