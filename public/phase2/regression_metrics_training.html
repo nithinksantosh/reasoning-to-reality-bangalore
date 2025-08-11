@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Error Metrics - Training Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 25px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #34495e;
+            font-size: 1.4em;
+            margin: 25px 0 15px 0;
+        }
+
+        .formula {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2196f3;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .key-points {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .metric-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e0e6ed;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .metric-card h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .metric-card .formula-small {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .visual-example {
+            background: linear-gradient(135deg, #fce4ec, #f8bbd9);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid #e91e63;
+        }
+
+        .data-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .data-point {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .interpretation-guide {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #03a9f4;
+        }
+
+        ul {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            .section {
+                padding: 20px;
+            }
+            .metric-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Regression Error Metrics</h1>
+            <p>Evaluating Performance for Continuous Value Predictions</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Learning Objectives</h2>
+            <div class="key-points">
+                <p><strong>By the end of this training, you will understand:</strong></p>
+                <ul>
+                    <li>The difference between regression and classification evaluation</li>
+                    <li>Core regression metrics: MAE, MSE, and RMSE</li>
+                    <li>When to use each metric and their trade-offs</li>
+                    <li>How to interpret error values in business context</li>
+                    <li>The importance of domain knowledge in evaluation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Regression vs. Classification: Key Differences</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Classification</th>
+                        <th>Regression</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Output Type</strong></td>
+                        <td>Categorical (discrete)</td>
+                        <td>Continuous (numerical)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Example Task</strong></td>
+                        <td>Email is spam or not spam</td>
+                        <td>Predict house price</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Evaluation Focus</strong></td>
+                        <td>Correct vs. incorrect categories</td>
+                        <td>How close predictions are to actual values</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Common Metrics</strong></td>
+                        <td>Accuracy, Precision, Recall, F1</td>
+                        <td>MAE, MSE, RMSE</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example-box">
+                <h3>🏠 Examples to Illustrate the Difference</h3>
+                <ul>
+                    <li><strong>Regression:</strong> Predicting the exact price of a house ($425,000)</li>
+                    <li><strong>Classification:</strong> Predicting which country a house is in (USA, Canada, UK)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📏 Mean Absolute Error (MAE)</h2>
+            <p>The <span class="highlight">simplest and most intuitive</span> regression metric.</p>
+            
+            <div class="formula">
+                <strong>MAE = (1/n) × Σ|y - ŷ|</strong><br>
+                <small>Average of absolute differences between actual and predicted values</small>
+            </div>
+
+            <h3>📊 Step-by-Step Calculation</h3>
+            <div class="visual-example">
+                <p><strong>Example: Predicting House Prices</strong></p>
+                <div class="data-points">
+                    <div class="data-point">
+                        House 1<br>
+                        Actual: $400K<br>
+                        Predicted: $380K<br>
+                        Error: |400-380| = $20K
+                    </div>
+                    <div class="data-point">
+                        House 2<br>
+                        Actual: $500K<br>
+                        Predicted: $520K<br>
+                        Error: |500-520| = $20K
+                    </div>
+                    <div class="data-point">
+                        House 3<br>
+                        Actual: $300K<br>
+                        Predicted: $290K<br>
+                        Error: |300-290| = $10K
+                    </div>
+                </div>
+                <p><strong>MAE = (20K + 20K + 10K) / 3 = $16.67K</strong></p>
+            </div>
+
+            <div class="key-points">
+                <p><strong>Advantages of MAE:</strong></p>
+                <ul>
+                    <li>Easy to understand and interpret</li>
+                    <li>Same units as the predicted variable</li>
+                    <li>Robust to outliers (treats all errors equally)</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>Limitation:</strong> MAE doesn't heavily penalize large errors. In some cases, you want your model to be more "afraid" of making big mistakes!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Mean Squared Error (MSE)</h2>
+            <p>Squares the errors before averaging, making it <span class="highlight">more sensitive to outliers</span>.</p>
+            
+            <div class="formula">
+                <strong>MSE = (1/n) × Σ(y - ŷ)²</strong><br>
+                <small>Average of squared differences between actual and predicted values</small>
+            </div>
+
+            <h3>📊 Same Example with MSE</h3>
+            <div class="visual-example">
+                <p><strong>Using the same house price predictions:</strong></p>
+                <div class="data-points">
+                    <div class="data-point">
+                        House 1<br>
+                        Error: $20K<br>
+                        Squared: (20K)² = 400K²
+                    </div>
+                    <div class="data-point">
+                        House 2<br>
+                        Error: $20K<br>
+                        Squared: (20K)² = 400K²
+                    </div>
+                    <div class="data-point">
+                        House 3<br>
+                        Error: $10K<br>
+                        Squared: (10K)² = 100K²
+                    </div>
+                </div>
+                <p><strong>MSE = (400K² + 400K² + 100K²) / 3 = 300K²</strong></p>
+            </div>
+
+            <div class="key-points">
+                <p><strong>Advantages of MSE:</strong></p>
+                <ul>
+                    <li>Penalizes large errors more heavily</li>
+                    <li>Mathematically convenient for optimization</li>
+                    <li>Emphasizes outliers that need attention</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>Problem:</strong> Units are squared! MSE = 300K² (dollars squared) - what does that even mean? 🤔</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>√ Root Mean Squared Error (RMSE)</h2>
+            <p>Takes the square root of MSE to <span class="highlight">return to original units</span> while keeping the sensitivity to large errors.</p>
+            
+            <div class="formula">
+                <strong>RMSE = √MSE = √[(1/n) × Σ(y - ŷ)²]</strong><br>
+                <small>Square root of the average squared differences</small>
+            </div>
+
+            <h3>📊 Completing Our Example</h3>
+            <div class="visual-example">
+                <p><strong>From our MSE calculation:</strong></p>
+                <p><strong>RMSE = √(300K²) = $17.32K</strong></p>
+                <p>Now we're back to dollars, and we can interpret this!</p>
+            </div>
+
+            <div class="key-points">
+                <p><strong>Why RMSE is Popular:</strong></p>
+                <ul>
+                    <li>✅ Same units as the original variable</li>
+                    <li>✅ Penalizes large errors more than MAE</li>
+                    <li>✅ Widely understood and accepted</li>
+                    <li>✅ Good balance of interpretability and mathematical properties</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚖️ Comparing the Three Metrics</h2>
+            
+            <div class="metric-comparison">
+                <div class="metric-card">
+                    <h4>MAE</h4>
+                    <div class="formula-small">Average |error|</div>
+                    <p><strong>Best for:</strong> When all errors are equally important</p>
+                    <p><strong>Units:</strong> Same as target</p>
+                    <p><strong>Outlier sensitivity:</strong> Low</p>
+                </div>
+                <div class="metric-card">
+                    <h4>MSE</h4>
+                    <div class="formula-small">Average error²</div>
+                    <p><strong>Best for:</strong> Mathematical optimization</p>
+                    <p><strong>Units:</strong> Squared target units</p>
+                    <p><strong>Outlier sensitivity:</strong> High</p>
+                </div>
+                <div class="metric-card">
+                    <h4>RMSE</h4>
+                    <div class="formula-small">√(Average error²)</div>
+                    <p><strong>Best for:</strong> General use and interpretation</p>
+                    <p><strong>Units:</strong> Same as target</p>
+                    <p><strong>Outlier sensitivity:</strong> High</p>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3>📊 Notice the Difference in Our Example</h3>
+                <ul>
+                    <li><strong>MAE = $16.67K</strong> (treats all errors equally)</li>
+                    <li><strong>RMSE = $17.32K</strong> (slightly higher due to penalizing larger errors)</li>
+                </ul>
+                <p>The difference becomes more pronounced with outliers!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 When to Use Which Metric?</h2>
+            
+            <div class="interpretation-guide">
+                <h3>🔍 Decision Framework</h3>
+                <ul>
+                    <li><strong>Use MAE when:</strong>
+                        <ul>
+                            <li>All errors have equal business impact</li>
+                            <li>You want to be robust to outliers</li>
+                            <li>You need easy interpretation for stakeholders</li>
+                        </ul>
+                    </li>
+                    <li><strong>Use RMSE when:</strong>
+                        <ul>
+                            <li>Large errors are disproportionately bad</li>
+                            <li>You want to identify and fix problematic predictions</li>
+                            <li>You need a balance of interpretability and sensitivity</li>
+                        </ul>
+                    </li>
+                    <li><strong>Use MSE when:</strong>
+                        <ul>
+                            <li>You're doing mathematical optimization</li>
+                            <li>Unit interpretation is not critical</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🤔 Interpreting Error Values: "Is This Good?"</h2>
+            
+            <div class="warning-box">
+                <p><strong>The Million Dollar Question:</strong> What constitutes a "good" RMSE?</p>
+                <p><strong>Answer:</strong> It depends entirely on context!</p>
+            </div>
+
+            <div class="interpretation-guide">
+                <h3>🏠 Context Examples</h3>
+                <div class="data-points">
+                    <div class="data-point">
+                        <strong>House Prices</strong><br>
+                        RMSE: $10,000<br>
+                        <span style="color: green;">✅ Excellent!</span><br>
+                        <small>vs. $400K average</small>
+                    </div>
+                    <div class="data-point">
+                        <strong>Candy Bar Prices</strong><br>
+                        RMSE: $10<br>
+                        <span style="color: red;">❌ Terrible!</span><br>
+                        <small>vs. $2 average</small>
+                    </div>
+                    <div class="data-point">
+                        <strong>Stock Prices</strong><br>
+                        RMSE: $10<br>
+                        <span style="color: orange;">⚠️ Depends!</span><br>
+                        <small>Good for $500 stock, bad for $20 stock</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <p><strong>Rule of Thumb:</strong> Compare your error metric to the mean value of your target variable</p>
+                <ul>
+                    <li><strong>RMSE/Mean < 0.1 (10%):</strong> Usually excellent</li>
+                    <li><strong>RMSE/Mean < 0.2 (20%):</strong> Often good</li>
+                    <li><strong>RMSE/Mean > 0.5 (50%):</strong> Usually needs improvement</li>
+                </ul>
+                <p><em>But always validate with domain experts!</em></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🤝 The Importance of Domain Knowledge</h2>
+            
+            <div class="example-box">
+                <h3>🏥 Real Estate Example</h3>
+                <p><strong>Your Model:</strong> RMSE of $25,000 for house price prediction</p>
+                <p><strong>Questions for Real Estate Expert:</strong></p>
+                <ul>
+                    <li>What's the typical variation in similar house prices?</li>
+                    <li>How accurate do appraisals usually need to be?</li>
+                    <li>What error level would make this useful for clients?</li>
+                    <li>Are there certain price ranges where accuracy matters more?</li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <p><strong>Remember:</strong> Machine learning is a collaborative process!</p>
+                <ul>
+                    <li>Metrics provide technical assessment</li>
+                    <li>Domain experts provide business context</li>
+                    <li>Together, they determine if a model is "good enough"</li>
+                    <li>Success criteria should be defined upfront with stakeholders</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📝 Summary & Key Takeaways</h2>
+            
+            <div class="key-points">
+                <p><strong>Essential Points to Remember:</strong></p>
+                <ul>
+                    <li><strong>Regression ≠ Classification:</strong> Different problems need different metrics</li>
+                    <li><strong>MAE:</strong> Simple, interpretable, treats all errors equally</li>
+                    <li><strong>MSE:</strong> Good for optimization, but units are squared</li>
+                    <li><strong>RMSE:</strong> Best of both worlds - interpretable and sensitive to large errors</li>
+                    <li><strong>Context is King:</strong> No universal "good" threshold exists</li>
+                    <li><strong>Domain Expertise:</strong> Essential for meaningful evaluation</li>
+                </ul>
+            </div>
+
+            <div class="interpretation-guide">
+                <p><strong>Your Evaluation Checklist:</strong></p>
+                <ul>
+                    <li>✅ Calculate multiple metrics (MAE, RMSE)</li>
+                    <li>✅ Compare to target variable's scale/mean</li>
+                    <li>✅ Consider business impact of different error sizes</li>
+                    <li>✅ Consult with domain experts</li>
+                    <li>✅ Define success criteria before modeling</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>❓ Questions for Discussion</h2>
+            <ul>
+                <li>In your domain, would small consistent errors or occasional large errors be more problematic?</li>
+                <li>How would you explain RMSE vs MAE to a business stakeholder?</li>
+                <li>What domain expertise would you need to properly evaluate your regression models?</li>
+                <li>Can you think of scenarios where MAE might be preferred over RMSE?</li>
+                <li>How might you set realistic performance expectations with stakeholders?</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔗 Connection to Classification Metrics</h2>
+            <div class="example-box">
+                <p><strong>Remember from our previous training:</strong> Classification uses accuracy, precision, recall, and F1-score because we're dealing with discrete categories.</p>
+                <p><strong>Now with regression:</strong> We use MAE, MSE, and RMSE because we're dealing with continuous values where "how far off" matters more than just "right or wrong."</p>
+                <p><strong>Both require:</strong> Domain knowledge and contextual interpretation!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
